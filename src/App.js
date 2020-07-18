@@ -3,9 +3,33 @@ import logo from './logo.svg';
 import './App.css';
 
 class Square extends React.Component {
+  
   render() {
     // You can use them as regular CSS styles
-    return  <button className="square">
+    let colors = {
+      2:"#bada55",
+      4:"#ffa500",
+      8:"#133337",
+      16:"#065535",
+      32:"#c0c0c0",
+      64:"#5ac18e",
+      128:"#666666",
+      256:"#cbcba9",
+      512:"#407294",
+      1024:"#ff80ed",
+      2048:"#ff0000",
+      4096:"#ff7373",
+      8192:"#003366",
+      16384:"#800000"
+    }
+    let buttonStyle = {
+      backgroundColor: colors[this.props.value]
+    }
+    
+    return  <button 
+                className="square"
+                style={buttonStyle}
+              >
               {this.props.value}
             </button>;
   }
@@ -18,10 +42,7 @@ class Board extends React.Component {
     datas[this.props.i] = 2;
     this.state = {
       values : datas,
-    }
-    console.log("value: ", datas);
-    
-    
+    } 
   }
 
   renderSquare(i) {
