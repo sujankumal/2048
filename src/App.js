@@ -1,38 +1,47 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {useSwipeable} from 'react-swipeable';
 
-class Square extends React.Component {
-  
-  render() {
-    // You can use them as regular CSS styles
-    let colors = {
-      2:"#bada55",
-      4:"#ffa500",
-      8:"#133337",
-      16:"#065535",
-      32:"#c0c0c0",
-      64:"#5ac18e",
-      128:"#666666",
-      256:"#cbcba9",
-      512:"#407294",
-      1024:"#ff80ed",
-      2048:"#ff0000",
-      4096:"#ff7373",
-      8192:"#003366",
-      16384:"#800000"
-    }
-    let buttonStyle = {
-      backgroundColor: colors[this.props.value]
-    }
-    
-    return  <button 
-                className="square"
-                style={buttonStyle}
-              >
-              {this.props.value}
-            </button>;
+
+function Square(props){
+  const colors = {
+    2:"#bada55",
+    4:"#ffa500",
+    8:"#133337",
+    16:"#065535",
+    32:"#c0c0c0",
+    64:"#5ac18e",
+    128:"#666666",
+    256:"#cbcba9",
+    512:"#407294",
+    1024:"#ff80ed",
+    2048:"#ff0000",
+    4096:"#ff7373",
+    8192:"#003366",
+    16384:"#800000"
   }
+
+  let buttonStyle = {
+    backgroundColor: colors[props.value]
+  }
+
+  const config =  {
+    delta: 10,                             // min distance(px) before a swipe starts
+    preventDefaultTouchmoveEvent: true,   // preventDefault on touchmove, *See Details*
+    trackTouch: true,                      // track touch input
+    trackMouse: true,                     // track mouse input
+    rotationAngle: 0,                      // set a rotation angle
+  }
+  
+  const handlers = useSwipeable({ onSwiped: (eventData) => props.handleSwipe(eventData.dir), ...config })  
+  return  <button 
+              className="square"
+              style={buttonStyle}
+              {...handlers}
+            >
+            {props.value}
+          </button>;
 }
 
 class Board extends React.Component {
@@ -45,8 +54,31 @@ class Board extends React.Component {
     } 
   }
 
+  handleSwipe(direction){
+    
+    switch(direction){
+      case "Right":
+        
+        break;
+      case "Up":
+        
+        break;
+      case "Left":
+        
+        break;
+      case "Down":
+        
+        break;
+      default:
+
+    }
+  }
+
   renderSquare(i) {
-   return <Square value={this.state.values[i]}/>;
+   return <Square 
+            value={this.state.values[i]}
+            handleSwipe={(direction)=>this.handleSwipe(direction)}
+          />;
   }
   render(){
 
