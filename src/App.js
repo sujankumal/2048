@@ -54,11 +54,79 @@ class Board extends React.Component {
     } 
   }
 
+  squarenewvalue(copyvalues){
+    // add new square
+    
+    // all squares are filled
+    if(!copyvalues.includes(null)){
+      return ;
+    }
+    // random index
+    let index = Math.floor(Math.random() * Math.floor(16));
+    
+    // put value only if null
+    while(copyvalues[index] != null){
+      index = Math.floor(Math.random() * Math.floor(16));
+    }
+    copyvalues[index] = 2;
+    return ;
+  }
+  
+  rightSwipeSwapSquare(i, copyvalues){
+    if(copyvalues[i] === null){
+      return
+    }
+    if(copyvalues[i] === copyvalues[i+1]){
+      // if adjacent square are same add both value and put to second square, nullify first
+      copyvalues[i+1]+= copyvalues[i];
+      copyvalues[i] = null;
+      i++;
+    }
+  }
+  squaresRightShift(i, k, copyvalues){
+    for(i; i>k; i--){
+      if(copyvalues[i] === null){
+        for(let j = i-1; j>=k; j--){
+          if(copyvalues[j] === null){
+            continue;
+          }
+          copyvalues[i] = copyvalues[j];
+          copyvalues[j] = null;
+        }
+      }
+    }
+  }
+
   handleSwipe(direction){
     
     switch(direction){
       case "Right":
+        // copy values
+        let copyvalues = this.state.values.slice();
         
+        for (let i = 0; i<3; i++){
+          this.rightSwipeSwapSquare(i, copyvalues);
+        }
+        for (let i = 4; i<7; i++){
+          this.rightSwipeSwapSquare(i, copyvalues);
+        }
+        for (let i = 8; i<11; i++){
+          this.rightSwipeSwapSquare(i, copyvalues);
+        }
+        for (let i = 12; i<15; i++){
+          this.rightSwipeSwapSquare(i, copyvalues);
+        }
+        this.squaresRightShift(3,0, copyvalues);
+        this.squaresRightShift(7,4, copyvalues);
+        this.squaresRightShift(11,8, copyvalues);
+        this.squaresRightShift(15,12, copyvalues);
+
+        console.log(copyvalues);
+
+        this.squarenewvalue(copyvalues);
+        this.setState({
+          values:copyvalues
+        })
         break;
       case "Up":
         
