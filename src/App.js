@@ -51,6 +51,9 @@ class Board extends React.Component {
     datas[this.props.i] = 2;
     this.state = {
       values : datas,
+      history: [{
+        values: Array(16).fill(null)
+      }],
     } 
   }
 
@@ -177,7 +180,11 @@ class Board extends React.Component {
     }
   }
   handleSwipe(direction){
-    this.status="";
+    
+    
+    const history = this.state.history;
+    
+
     switch(direction){
       case "Right":
         // copy values
@@ -200,11 +207,13 @@ class Board extends React.Component {
         this.squaresRightShift(11,8, copyvaluesforright);
         this.squaresRightShift(15,12, copyvaluesforright);
 
-        console.log(copyvaluesforright);
-
+        
         this.squarenewvalue(copyvaluesforright);
         this.setState({
-          values:copyvaluesforright
+          values:copyvaluesforright,
+          history: history.concat([{
+            values: copyvaluesforright
+          }]),
         });
         break;
       case "Up":
@@ -228,11 +237,12 @@ class Board extends React.Component {
         this.squaresUpShift(2,14, copyvaluesforup);
         this.squaresUpShift(3,15, copyvaluesforup);
 
-        console.log(copyvaluesforup);
-
         this.squarenewvalue(copyvaluesforup);
         this.setState({
-          values:copyvaluesforup
+          values:copyvaluesforup,  
+          history: history.concat([{
+            values: copyvaluesforup
+          }]),
         });
         break;
       case "Left":
@@ -256,11 +266,12 @@ class Board extends React.Component {
         this.squaresLeftShift(8,11, copyvaluesforleft);
         this.squaresLeftShift(12,15, copyvaluesforleft);
 
-        console.log(copyvaluesforleft);
-
         this.squarenewvalue(copyvaluesforleft);
         this.setState({
-          values:copyvaluesforleft
+          values:copyvaluesforleft,  
+          history: history.concat([{
+            values: copyvaluesforleft
+          }]),
         });
         break;
       case "Down":
@@ -284,11 +295,12 @@ class Board extends React.Component {
         this.squaresDownShift(14,2, copyvaluesforDown);
         this.squaresDownShift(15,3, copyvaluesforDown);
 
-        console.log(copyvaluesforDown);
-
         this.squarenewvalue(copyvaluesforDown);
         this.setState({
-          values:copyvaluesforDown
+          values:copyvaluesforDown,  
+          history: history.concat([{
+            values: copyvaluesforDown
+          }]),
         });
         break;
       default:
@@ -314,6 +326,13 @@ class Board extends React.Component {
     }
     return false;
   }
+  
+  goTo(move){
+    
+    this.setState({
+      values: this.state.history[move].values
+    });
+  }
   render(){
     
     let status;
@@ -324,9 +343,19 @@ class Board extends React.Component {
     if (this.has2048()) {
       status = '2048 Won';
     } 
-    
+    const moves = this.state.history.map((step, move) => {
+      
+      const desc = move ?
+        'Go to move #' + move :
+        'Go to game start';
+      return (
+        <li key={move}>
+          <small onClick={() => this.goTo(move)}>{desc}</small>
+        </li>
+      );
+    });
     return <div className="board">
-              <table className="table">
+              <table className="table disable-select">
                 <tbody>
                   <tr className="board-row">
                     <td>{this.renderSquare(0)}</td>
@@ -354,8 +383,16 @@ class Board extends React.Component {
                   </tr>
                 </tbody>
               </table>
-              <div>
+              <div className="status">
+                <button onClick={()=>{this.setState({
+                                            values : Array(16).fill(null),
+                                            history: [{
+                                              values: Array(16).fill(null)
+                                            }],
+                                          } )}}
+                      >Reset</button>
                 <p>{status}</p>
+                <ol>{moves}</ol>
               </div>
             </div>;
   }

@@ -50,13 +50,27 @@
   font-size: 18px;
   line-height: 34px;
   height: 60px;
-  margin-right: 0px;
-  margin-top: 0px;
+  margin: 0px;
   padding: 0;
   text-align: center;
   width: 60px;
 }
-
+.status{
+  font-size: 14px;  
+}
+.status> button{
+  background-color: darkgreen;
+  color: white;
+  border-color:darkgreen;
+  padding: 8px;
+  margin: 8px;
+}
 .square:focus {
   outline: none;
+}
+.disable-select {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
 }
