@@ -177,7 +177,7 @@ class Board extends React.Component {
     }
   }
   handleSwipe(direction){
-    
+    this.status="";
     switch(direction){
       case "Right":
         // copy values
@@ -302,32 +302,60 @@ class Board extends React.Component {
             handleSwipe={(direction)=>this.handleSwipe(direction)}
           />;
   }
+  has2048(){
+    if(this.state.values.includes(2048)){
+      return true;
+    }
+    return false;
+  }
+  hasMoves(){
+    if(this.state.values.includes(null)){
+      return true;
+    }
+    return false;
+  }
   render(){
+    
+    let status;
+    if(!this.hasMoves()){
+      status = "No empty Square";
+    }
 
+    if (this.has2048()) {
+      status = '2048 Won';
+    } 
+    
     return <div className="board">
-              <div className="board-row">
-                {this.renderSquare(0)}
-                {this.renderSquare(1)}
-                {this.renderSquare(2)}
-                {this.renderSquare(3)}
-              </div>
-              <div className="board-row">
-                {this.renderSquare(4)}
-                {this.renderSquare(5)}
-                {this.renderSquare(6)}
-                {this.renderSquare(7)}
-              </div>
-              <div className="board-row">
-                {this.renderSquare(8)}
-                {this.renderSquare(9)}
-                {this.renderSquare(10)}
-                {this.renderSquare(11)}
-              </div>
-              <div className="board-row">
-                {this.renderSquare(12)}
-                {this.renderSquare(13)}
-                {this.renderSquare(14)}
-                {this.renderSquare(15)}
+              <table className="table">
+                <tbody>
+                  <tr className="board-row">
+                    <td>{this.renderSquare(0)}</td>
+                    <td>{this.renderSquare(1)}</td>
+                    <td>{this.renderSquare(2)}</td>
+                    <td>{this.renderSquare(3)}</td>
+                  </tr>
+                  <tr className="board-row">
+                    <td>{this.renderSquare(4)}</td>
+                    <td>{this.renderSquare(5)}</td>
+                    <td>{this.renderSquare(6)}</td>
+                    <td>{this.renderSquare(7)}</td>
+                  </tr>
+                  <tr className="board-row">
+                    <td>{this.renderSquare(8)}</td>
+                    <td>{this.renderSquare(9)}</td>
+                    <td>{this.renderSquare(10)}</td>
+                    <td>{this.renderSquare(11)}</td>
+                  </tr>
+                  <tr className="board-row">
+                    <td>{this.renderSquare(12)}</td>
+                    <td>{this.renderSquare(13)}</td>
+                    <td>{this.renderSquare(14)}</td>
+                    <td>{this.renderSquare(15)}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <p>{status}</p>
               </div>
             </div>;
   }
