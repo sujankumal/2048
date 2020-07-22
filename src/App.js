@@ -336,6 +336,7 @@ class Board extends React.Component {
   render(){
     
     let status;
+    let totalnumberofsteps
     if(!this.hasMoves()){
       status = "No empty Square";
     }
@@ -344,7 +345,7 @@ class Board extends React.Component {
       status = '2048 Won';
     } 
     const moves = this.state.history.map((step, move) => {
-      
+      totalnumberofsteps = move;
       const desc = move ?
         'Go to move #' + move :
         'Go to game start';
@@ -391,6 +392,7 @@ class Board extends React.Component {
                                             }],
                                           } )}}
                       >Reset</button>
+                      <p>Total Steps: {totalnumberofsteps}</p>
                 <p>{status}</p>
                 <ol>{moves}</ol>
               </div>
