@@ -76,10 +76,21 @@ class Board extends React.Component {
     if(copyvalues[i] === null){
       return
     }
+    if(copyvalues[i] === copyvalues[i-1]){
+      // if adjacent square are same add both value and put to second square, nullify first
+      copyvalues[i-1]+= copyvalues[i];
+      copyvalues[i] = null;
+      i--;
+    }
+  }
+  leftSwipeSwapSquare(i, copyvalues){
+    if(copyvalues[i] === null){
+      return
+    }
     if(copyvalues[i] === copyvalues[i+1]){
       // if adjacent square are same add both value and put to second square, nullify first
-      copyvalues[i+1]+= copyvalues[i];
-      copyvalues[i] = null;
+      copyvalues[i]+= copyvalues[i+1];
+      copyvalues[i+1] = null;
       i++;
     }
   }
@@ -92,50 +103,139 @@ class Board extends React.Component {
           }
           copyvalues[i] = copyvalues[j];
           copyvalues[j] = null;
+          break;
         }
       }
     }
   }
-
+  squaresLeftShift(i, k, copyvalues){
+    for(i; i<k; i++){
+      if(copyvalues[i] === null){
+        for(let j = i+1; j<=k; j++){
+          if(copyvalues[j] === null){
+            continue;
+          }
+          copyvalues[i] = copyvalues[j];
+          copyvalues[j] = null;
+          break;
+        }
+      }
+    }
+  }
   handleSwipe(direction){
     
     switch(direction){
       case "Right":
         // copy values
-        let copyvalues = this.state.values.slice();
+        let copyvaluesforright = this.state.values.slice();
         
-        for (let i = 0; i<3; i++){
-          this.rightSwipeSwapSquare(i, copyvalues);
+        for (let i = 3; i>0; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforright);
         }
-        for (let i = 4; i<7; i++){
-          this.rightSwipeSwapSquare(i, copyvalues);
+        for (let i = 7; i>4; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforright);
         }
-        for (let i = 8; i<11; i++){
-          this.rightSwipeSwapSquare(i, copyvalues);
+        for (let i = 11; i>8; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforright);
         }
-        for (let i = 12; i<15; i++){
-          this.rightSwipeSwapSquare(i, copyvalues);
+        for (let i = 15; i>12; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforright);
         }
-        this.squaresRightShift(3,0, copyvalues);
-        this.squaresRightShift(7,4, copyvalues);
-        this.squaresRightShift(11,8, copyvalues);
-        this.squaresRightShift(15,12, copyvalues);
+        this.squaresRightShift(3,0, copyvaluesforright);
+        this.squaresRightShift(7,4, copyvaluesforright);
+        this.squaresRightShift(11,8, copyvaluesforright);
+        this.squaresRightShift(15,12, copyvaluesforright);
 
-        console.log(copyvalues);
+        console.log(copyvaluesforright);
 
-        this.squarenewvalue(copyvalues);
+        this.squarenewvalue(copyvaluesforright);
         this.setState({
-          values:copyvalues
-        })
+          values:copyvaluesforright
+        });
         break;
       case "Up":
+        // copy values
+        let copyvaluesforup = this.state.values.slice();
         
+        for (let i = 3; i>0; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforup);
+        }
+        for (let i = 7; i>4; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforup);
+        }
+        for (let i = 11; i>8; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforup);
+        }
+        for (let i = 15; i>12; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforup);
+        }
+        this.squaresRightShift(3,0, copyvaluesforup);
+        this.squaresRightShift(7,4, copyvaluesforup);
+        this.squaresRightShift(11,8, copyvaluesforup);
+        this.squaresRightShift(15,12, copyvaluesforup);
+
+        console.log(copyvaluesforup);
+
+        this.squarenewvalue(copyvaluesforup);
+        this.setState({
+          values:copyvaluesforup
+        });
         break;
       case "Left":
+        // copy values
+        let copyvaluesforleft = this.state.values.slice();
         
+        for (let i = 0; i<3; i++){
+          this.leftSwipeSwapSquare(i, copyvaluesforleft);
+        }
+        for (let i = 4; i<7; i++){
+          this.leftSwipeSwapSquare(i, copyvaluesforleft);
+        }
+        for (let i = 8; i<11; i++){
+          this.leftSwipeSwapSquare(i, copyvaluesforleft);
+        }
+        for (let i = 12; i<15; i++){
+          this.leftSwipeSwapSquare(i, copyvaluesforleft);
+        }
+        this.squaresLeftShift(0,3, copyvaluesforleft);
+        this.squaresLeftShift(4,7, copyvaluesforleft);
+        this.squaresLeftShift(8,11, copyvaluesforleft);
+        this.squaresLeftShift(12,15, copyvaluesforleft);
+
+        console.log(copyvaluesforleft);
+
+        this.squarenewvalue(copyvaluesforleft);
+        this.setState({
+          values:copyvaluesforleft
+        });
         break;
       case "Down":
+        // copy values
+        let copyvaluesforDown = this.state.values.slice();
         
+        for (let i = 3; i>0; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforDown);
+        }
+        for (let i = 7; i>4; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforDown);
+        }
+        for (let i = 11; i>8; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforDown);
+        }
+        for (let i = 15; i>12; i--){
+          this.rightSwipeSwapSquare(i, copyvaluesforDown);
+        }
+        this.squaresRightShift(3,0, copyvaluesforDown);
+        this.squaresRightShift(7,4, copyvaluesforDown);
+        this.squaresRightShift(11,8, copyvaluesforDown);
+        this.squaresRightShift(15,12, copyvaluesforDown);
+
+        console.log(copyvaluesforDown);
+
+        this.squarenewvalue(copyvaluesforDown);
+        this.setState({
+          values:copyvaluesforDown
+        });
         break;
       default:
 
