@@ -52,7 +52,7 @@ class Board extends React.Component {
     this.state = {
       values : datas,
       history: [{
-        values: Array(16).fill(null)
+        values: datas,
       }],
     } 
   }
@@ -62,7 +62,7 @@ class Board extends React.Component {
     
     // all squares are filled
     if(!copyvalues.includes(null)){
-      return ;
+      return
     }
     // random index
     let index = Math.floor(Math.random() * Math.floor(16));
@@ -72,7 +72,7 @@ class Board extends React.Component {
       index = Math.floor(Math.random() * Math.floor(16));
     }
     copyvalues[index] = 2;
-    return ;
+    return
   }
   
   rightSwipeSwapSquare(i, copyvalues){
