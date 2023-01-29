@@ -336,7 +336,7 @@ class Board extends React.Component {
   render(){
     
     let status;
-    let totalnumberofsteps
+    let totalnumberofsteps;
     if(!this.hasMoves()){
       status = "No empty Square";
     }
@@ -347,11 +347,11 @@ class Board extends React.Component {
     const moves = this.state.history.map((step, move) => {
       totalnumberofsteps = move;
       const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
+        '#' + move :
+        'Game start';
       return (
         <li key={move}>
-          <small onClick={() => this.goTo(move)}>{desc}</small>
+          <button className='history-button-link' onClick={() => this.goTo(move)}>{desc}</button>
         </li>
       );
     });
@@ -394,7 +394,10 @@ class Board extends React.Component {
                       >Reset</button>
                       <p>Total Steps: {totalnumberofsteps}</p>
                 <p>{status}</p>
-                <ol>{moves}</ol>
+                <h4>GO TO:</h4>
+                <div className="history-section">
+                  <ol>{moves}</ol>
+                </div>
               </div>
             </div>;
   }
